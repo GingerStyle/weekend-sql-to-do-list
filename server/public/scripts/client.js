@@ -18,9 +18,9 @@ function getInput(){
     let input = {
         task: $('#task-input').val(),
         completed: 'n',
-    }
+    };
     $.ajax({
-        
+
     })
 }
 
