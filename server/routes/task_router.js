@@ -29,4 +29,18 @@ router.post('/', (req, res) => {
     });
 });
 
+router.put('/completed/:id', (req, res) => {
+    console.log('req.params.status',req.body.status);
+    console.log('req.params.id', req.params.id);
+    let queryText = `UPDATE "tasks" SET "completed" = '${req.body.status}' WHERE "id" = ${req.params.id};`;
+    pool.query(queryText)
+    .then((response) => {
+        console.log('db response', response);
+        res.sendStatus(200);
+    }).catch((error) => {
+        console.log('error updating database', error);
+    });
+});
+
+
 module.exports = router;

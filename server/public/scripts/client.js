@@ -6,6 +6,8 @@ function onReady(){
     getTasks();
     //when submit button is pressed run get Input
     $('#submit-btn').on('click', getInput);
+    $('#task-list').on('click', '.complete-btn', updateTask);
+    $('#task-list').on('click', '.delete-btn', deleteTask);
 }
 
 //function to get the tasks from the database
@@ -25,8 +27,41 @@ function getTasks(){
 function getInput(){
     let input = {
         task: $('#task-input').val(),
-        completed: 'n',
+        completed: 'no',
     };
+    $.ajax({
+        method: 'POST',
+        url: '/tasks',
+        data: input
+    }).then((response) => {
+        $('#task-input').val('Task Added!');
+        setTimeout(function(){$('#task-input').val('')}, 2000);
+        console.log('response fro db', response);
+        getTasks();
+    }).catch((error) => {
+        console.log('error posting data', error);
+    })
+}
+
+//function to update the status of tasks
+function updateTask(){
+    console.log('in updateTasks');
+    let id = $(this).parent().parent().data('id');
+    $.ajax({
+        method: 'PUT',
+        url: `/tasks/completed/${id}`,
+        data: {status: 'yes'},
+    }).then(() => {
+        getTasks();
+    }).catch((error) => {
+        console.log('error updating data', error);
+    });
+    getTasks();
+}
+
+//function to delete a task
+function deleteTask(){
+
 }
 
 //function to update the DOM
@@ -34,7 +69,7 @@ function render(tasks){
     $('#task-list').empty();
     for (let i=0; i < tasks.length; i++){
         let color = 'grey';
-        if(tasks[i].completed == 'y'){
+        if(tasks[i].completed == 'yes'){
             color = 'green';
         }
         $('#task-list').append(
