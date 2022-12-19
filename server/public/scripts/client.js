@@ -61,7 +61,16 @@ function updateTask(){
 
 //function to delete a task
 function deleteTask(){
-
+    console.log('in deleteTask');
+    let id = $(this).parent().parent().data('id');
+    $.ajax({
+        method: 'DELETE',
+        url: `/tasks/${id}`,
+    }).then(() => {
+        getTasks();
+    }).catch((error) => {
+        console.log('error deleting data', error);
+    })
 }
 
 //function to update the DOM

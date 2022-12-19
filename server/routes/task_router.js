@@ -39,6 +39,19 @@ router.put('/completed/:id', (req, res) => {
         res.sendStatus(200);
     }).catch((error) => {
         console.log('error updating database', error);
+        res.sendStatus(500);
+    });
+});
+
+router.delete('/:id', (req, res) => {
+    let queryText = `DELETE FROM "tasks" WHERE "id" = ${req.params.id};`;
+    pool.query(queryText)
+    .then((response) => {
+        console.log('response from db', response);
+        res.sendStatus(204);
+    }).catch((error) => {
+        console.log('problem with delete query', error);
+        res.sendStatus(500);
     });
 });
 
