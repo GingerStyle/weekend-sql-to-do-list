@@ -80,7 +80,7 @@ function render(tasks){
         let color = 'grey';
         if(tasks[i].completed == 'yes'){
             color = 'green';
-        }
+        };
         $('#task-list').append(
             `<tr style="background-color:${color};"  data-id=${tasks[i].id}>
                 <td>${tasks[i].id}</td>
